@@ -1,0 +1,7 @@
+Flask
+Flask-Script
+Jinja2
+wsgiref
+Flask-Login
+Flask-SQLAlchemy
+Flask-WTF
