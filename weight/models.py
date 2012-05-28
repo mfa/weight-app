@@ -64,7 +64,6 @@ class Scale(db.Model):
     #:
     comment = db.Column(db.UnicodeText)
 
-
     #: creation date, set on creation
     createdate = db.Column(db.DateTime(timezone=True),
                            db.DefaultClause(db.func.now()),
@@ -99,6 +98,10 @@ class Weight(db.Model):
 
     #:
     weight = db.Column(db.Float)
+
+    #:
+    user_username = db.Column(db.UnicodeText,
+                              db.ForeignKey(user.username))
 
     #:
     comment = db.Column(db.UnicodeText)
