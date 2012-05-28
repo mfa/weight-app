@@ -17,13 +17,22 @@ def createdb():
     from models import User
     db.create_all()
 
-    u = User(username=u'admin', 
-             email=u'admin@localhost')
+    add_user(u'admin', u'admin@localhost')
+
+@manager.command
+def add_user(username, email):
+    from models import User
+    if User.query.get(username):
+        print("User %s already exists!" % username)
+        return
+    u = User(username=username, 
+             email=email)
     pw = new_pw()
     u.set_password(pw)
-    print("Password for admin set to: %s" % pw)
+    print("Password for %s set to: %s" % (username, pw))
     db.session.add(u)
     db.session.commit()
+    
 
 if __name__ == '__main__':
     manager.run()
