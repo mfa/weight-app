@@ -1,6 +1,5 @@
 from flask.ext.script import Manager
 from main import app, db
-import os
 
 # flask-Script
 manager = Manager(app)
@@ -8,7 +7,7 @@ manager = Manager(app)
 def new_pw():
     import string
     import random
-    return "".join(random.sample(string.letters+string.digits, 8))
+    return "".join(random.sample(string.letters + string.digits, 8))
 
 @manager.command
 def createdb():
