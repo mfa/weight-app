@@ -1,4 +1,5 @@
 from flask import Flask, Response, request, abort, redirect, flash, url_for
+from flask import render_template
 from flask.ext.login import LoginManager, UserMixin
 from flask.ext.login import login_required, login_user, logout_user 
 from flask.ext.sqlalchemy import SQLAlchemy
@@ -27,7 +28,7 @@ login_manager.login_view = "login"
 @app.route('/')
 @login_required
 def home():
-    return Response("Hello World!")
+    return render_template('index.html')
 
 @login_manager.user_loader
 def load_user(user):
