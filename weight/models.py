@@ -14,11 +14,15 @@ class User(db.Model):
     #: email address
     email = db.Column(db.UnicodeText)
 
-    # firstname (not required)
+    #: firstname (not required)
     firstname = db.Column(db.UnicodeText, nullable=True)
 
-    # lastname (not required)
+    #: lastname (not required)
     lastname = db.Column(db.UnicodeText, nullable=True)
+
+    #: default scale of this user
+    default_scale_id = db.Column(db.UnicodeText,
+                                 db.ForeignKey(scale.id))
 
     #: creation date, set on creation
     createdate = db.Column(db.DateTime(timezone=True),
