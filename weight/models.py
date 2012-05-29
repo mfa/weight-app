@@ -1,6 +1,7 @@
 from main import db
 import hashlib
 
+
 class User(db.Model):
     """ simple User model with password (md5 hashed) and email.
     """
@@ -22,7 +23,7 @@ class User(db.Model):
 
     #: default scale of this user
     default_scale_id = db.Column(db.UnicodeText,
-                                 db.ForeignKey(scale.id))
+                                 db.ForeignKey("scale.id"))
 
     #: creation date, set on creation
     createdate = db.Column(db.DateTime(timezone=True),
@@ -85,12 +86,12 @@ class Weight(db.Model):
     """
     """
 
-    id = db.Column(db.Integer, db.Sequence(),
+    id = db.Column(db.Integer, db.Sequence('weight_id_seq'),
                    unique=True, primary_key=True)
 
     #: date of weighing
-    date = db.Column(db.Date(timezone=True),
-                     db.DefaultClause(db.func.today()),
+    wdate = db.Column(db.Date(timezone=True),
+                     db.DefaultClause(db.func.sysdate()),
                      nullable=False)
 
     #: day of week (as string), could be an enum
@@ -98,14 +99,14 @@ class Weight(db.Model):
 
     #:
     scale_id = db.Column(db.UnicodeText,
-                         db.ForeignKey(scale.id))
+                         db.ForeignKey("scale.id"))
 
     #:
     weight = db.Column(db.Float)
 
     #:
     user_username = db.Column(db.UnicodeText,
-                              db.ForeignKey(user.username))
+                              db.ForeignKey("user.username"))
 
     #:
     comment = db.Column(db.UnicodeText)
