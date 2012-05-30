@@ -5,7 +5,7 @@ from flask.ext.login import login_required, login_user, logout_user , current_us
 from flask.ext.sqlalchemy import SQLAlchemy
 import os
 
-from forms import LoginForm
+from forms import LoginForm, ProfileForm
 
 app = Flask(__name__)
 
@@ -26,16 +26,6 @@ db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.setup_app(app)
 login_manager.login_view = "login"
-
-@app.route('/')
-@login_required
-def index():
-    if current_user._user:
-        user = current_user._user
-    else:
-        user = False
-    return render_template('index.html',
-                           user=user)
 
 @login_manager.user_loader
 def load_user(user):
@@ -66,6 +56,18 @@ class DbUser(object):
     def is_authenticated(self):
         return True 
 
+## views
+
+@app.route('/')
+@login_required
+def index():
+    if current_user._user:
+        user = current_user._user
+    else:
+        user = False
+    return render_template('index.html',
+                           user=user)
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     form = LoginForm()
@@ -77,7 +79,7 @@ def login():
         from models import User
         u1 = User.query.get(username)
         if login_user(DbUser(u1.username)):
-            flash("You have logged in")
+            flash("You have logged in", "info")
             next = request.args.get('next')
             return redirect(next or url_for('index'))
 
@@ -87,6 +89,37 @@ def login():
 @app.route('/logout')
 def logout():
     logout_user()
-    flash('You have logged out')
+    flash('You have logged out', "info")
     return(redirect(url_for('login')))
+
+
+@app.route("/profile", methods=["GET", "POST"])
+@login_required
+def profile():
+    from models import User
+    u1 = User.query.get(current_user._user)
+    form = ProfileForm(obj=u1)
+
+    if form.validate_on_submit():
+
+        if 'firstname' in request.form:
+            u1.firstname = request.form['firstname']
+
+        if 'lastname' in request.form:
+            u1.lastname = request.form['lastname']
+
+        if 'email' in request.form:
+            u1.email = request.form['email']
+
+        if 'password' in request.form:
+            u1.set_password(request.form['password'])
+
+        # TODO: set default scale
+
+        db.session.add(u1)
+        db.session.commit()
+        flash('Data saved', 'info')
+
+    return render_template('profile.html',
+                           form=form)
 

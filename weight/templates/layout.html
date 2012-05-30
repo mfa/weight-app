@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Bootstrap, from Twitter</title>
+    <title>Weight App</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -58,6 +58,19 @@
     </div>
 
     <div class="container">
+
+      <div id="flash" class="span12">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-block alert-{{ category }}">
+                    <a class="close" data-dismiss="alert" href="#">×</a>
+                      {{ message }}
+                </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+      </div>
 
       <div id="content" class="span12">
 	<h1>{% block header %}{% endblock %}</h1>

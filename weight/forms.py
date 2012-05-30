@@ -1,5 +1,6 @@
 from flask.ext.wtf import Form, TextField, PasswordField, SubmitField, \
-     HiddenField, Required, BooleanField, ValidationError
+     HiddenField, Required, BooleanField, ValidationError, validators, \
+     Optional, EqualTo
 
 from flask import request
 
@@ -30,3 +31,22 @@ class LoginForm(Form):
         if u1:
             if not u1.check_password(field.data):
                 raise ValidationError('Password wrong')
+
+
+class ProfileForm(Form):
+    firstname = TextField("Firstname")
+    lastname = TextField("Lastname")
+    email = TextField("Email", [validators.Email(), Optional()])
+    # set default scale
+    password = PasswordField('New Password',
+                             [EqualTo('confirm', message='Passwords must match')])
+    confirm  = PasswordField('Repeat Password')
+    submit = SubmitField("Save")
+
+
+class Scale(Form):
+    pass
+
+
+class Weight(Form):
+    pass
