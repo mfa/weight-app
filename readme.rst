@@ -16,3 +16,10 @@ run (testing)
 cd weight
 python main.py
 
+TODOs
+=====
+
+ * import of xml
+ * export to xml
+ * mobile optimization
+ * plots (matplotlib?)
