@@ -20,6 +20,7 @@
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+    
   </head>
 
   <body>
@@ -33,6 +34,17 @@
             <span class="icon-bar"></span>
           </a>
           <a class="brand" href="/">Weight App</a>
+	  <div class="btn-group pull-right">
+            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+              <i class="icon-user"></i> {{ user }}
+              <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a href="/profile">Profile</a></li>
+              <li class="divider"></li>
+              <li><a href="/logout">Sign Out</a></li>
+            </ul>
+          </div>
           <div class="nav-collapse">
             <ul class="nav">
               <li class="active"><a href="/">Home</a></li>
@@ -47,8 +59,8 @@
 
     <div class="container">
 
-      <h1>{% block header %}{% endblock %}</h1>
       <div id="content" class="span12">
+	<h1>{% block header %}{% endblock %}</h1>
         {% block body %}{% endblock %} 
       </div>
 
@@ -57,6 +69,10 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
     <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.js') }}"></script>
+    <script type="text/javascript">
+    {% block js %}
+    {% endblock %}
+    </script>
 
   </body>
 </html>

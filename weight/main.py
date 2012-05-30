@@ -1,9 +1,11 @@
 from flask import Flask, Response, request, abort, redirect, flash, url_for
 from flask import render_template
 from flask.ext.login import LoginManager, UserMixin
-from flask.ext.login import login_required, login_user, logout_user 
+from flask.ext.login import login_required, login_user, logout_user , current_user
 from flask.ext.sqlalchemy import SQLAlchemy
 import os
+
+from forms import LoginForm
 
 app = Flask(__name__)
 
@@ -27,8 +29,13 @@ login_manager.login_view = "login"
 
 @app.route('/')
 @login_required
-def home():
-    return render_template('index.html')
+def index():
+    if current_user._user:
+        user = current_user._user
+    else:
+        user = False
+    return render_template('index.html',
+                           user=user)
 
 @login_manager.user_loader
 def load_user(user):
@@ -61,30 +68,21 @@ class DbUser(object):
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    error = None
-    next = request.args.get('next')
-    if request.method == 'POST':
+    form = LoginForm()
+
+    if form.validate_on_submit():
         username = request.form['username']
         password = request.form['password']
 
         from models import User
         u1 = User.query.get(username)
-        if u1:
-            if u1.check_password(password):
-                if login_user(DbUser(u1.username)):
-                    # do stuff
-                    flash("You have logged in")
+        if login_user(DbUser(u1.username)):
+            flash("You have logged in")
+            next = request.args.get('next')
+            return redirect(next or url_for('index'))
 
-                    return redirect(next or url_for('index', error=error))
-        error = "Login failed"
-    else:
-        return Response('''
-        <form action="" method="post">
-            <p><input type=text name=username>
-            <p><input type=password name=password>
-            <p><input type=submit value=Login>
-        </form>
-        ''')
+    return render_template('login.html',
+                           form=form)
 
 @app.route('/logout')
 def logout():
