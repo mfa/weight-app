@@ -1,6 +1,7 @@
 from main import db
 import hashlib
-
+from sqlalchemy.orm import column_property
+import datetime
 
 class User(db.Model):
     """ simple User model with password (md5 hashed) and email.
@@ -94,8 +95,11 @@ class Weight(db.Model):
                      db.DefaultClause(db.func.sysdate()),
                      nullable=False)
 
-    #: day of week (as string), could be an enum
-    weekday = db.Column(db.UnicodeText)
+    #: day of week
+    @property
+    def weekday(self):
+        dt = datetime.date("FIXME")        
+        return dt.strftime("%a")
 
     #:
     scale_id = db.Column(db.UnicodeText,
