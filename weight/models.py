@@ -82,6 +82,9 @@ class Scale(db.Model):
     changed_by = db.Column(db.UnicodeText,
                            db.DefaultClause(db.func.session_user()))
 
+    def __repr__(self):
+        return '<Scale %s %s>' % (self.name, self.owner)
+
 
 class Weight(db.Model):
     """
@@ -126,3 +129,6 @@ class Weight(db.Model):
     #: changed_by
     changed_by = db.Column(db.UnicodeText,
                            db.DefaultClause(db.func.session_user()))
+
+    def __repr__(self):
+        return '<Weight %s %s>' % (str(self.wdate), self.user_username)
