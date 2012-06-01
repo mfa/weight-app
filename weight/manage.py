@@ -17,7 +17,7 @@ def createdb():
     add_user(u'admin', email=get_emailaddress())
 
 @manager.command
-def add_user(username, email):
+def add_user(username, email, quiet=False):
     """ Adds a User to the database with a random password and prints
         the random password.
     """
@@ -29,7 +29,8 @@ def add_user(username, email):
              email=email)
     pw = new_pw()
     u.set_password(pw)
-    print("Password for %s set to: %s" % (username, pw))
+    if not quiet:
+        print("Password for %s set to: %s" % (username, pw))
     db.session.add(u)
     db.session.commit()
 
