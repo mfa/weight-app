@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 from flask.ext.script import Manager
 from main import app, db
+import subprocess
 
 # flask-Script
 manager = Manager(app)
@@ -17,7 +18,12 @@ def createdb():
     from models import User
     db.create_all()
 
-    add_user(u'admin', u'admin@localhost')
+    m = subprocess.Popen('git config --get user.email',
+                         shell=True, stdout=subprocess.PIPE).stdout
+    email = unicode(m.read())
+    if '@' not in email:
+        email = None
+    add_user(u'admin', email=email)
 
 @manager.command
 def add_user(username, email):
