@@ -23,8 +23,8 @@ class User(db.Model):
     lastname = db.Column(db.UnicodeText, nullable=True)
 
     #: default scale of this user
-    default_scale_id = db.Column(db.UnicodeText,
-                                 db.ForeignKey("scale.id"))
+    default_scale_name = db.Column(db.UnicodeText,
+                                   db.ForeignKey("scale.name"))
 
     #: creation date, set on creation
     createdate = db.Column(db.DateTime(timezone=True),
@@ -58,8 +58,8 @@ class Scale(db.Model):
     """
 
     #:
-    id = db.Column(db.UnicodeText,
-                   unique=True, primary_key=True)
+    name = db.Column(db.UnicodeText,
+                     unique=True, primary_key=True)
 
     #:
     owner = db.Column(db.UnicodeText)
@@ -98,12 +98,12 @@ class Weight(db.Model):
     #: day of week
     @property
     def weekday(self):
-        dt = datetime.date("FIXME")        
+        dt = self.wdate
         return dt.strftime("%a")
 
     #:
-    scale_id = db.Column(db.UnicodeText,
-                         db.ForeignKey("scale.id"))
+    scale_name = db.Column(db.UnicodeText,
+                           db.ForeignKey("scale.name"))
 
     #:
     weight = db.Column(db.Float)
