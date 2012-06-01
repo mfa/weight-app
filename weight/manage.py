@@ -6,6 +6,8 @@ from main import app, db
 manager = Manager(app)
 
 def new_pw():
+    """ Generate a new password with letters and digits
+    """
     import string
     import random
     return "".join(random.sample(string.letters + string.digits, 8))
@@ -23,13 +25,16 @@ def get_emailaddress():
 def createdb():
     """ Create Database (with initial user)
     """
-    from models import User
+    import models
     db.create_all()
 
     add_user(u'admin', email=get_emailaddress())
 
 @manager.command
 def add_user(username, email):
+    """ Adds a User to the database with a random password and prints
+        the random password.
+    """
     from models import User
     if User.query.get(username):
         print("User %s already exists!" % username)
@@ -41,7 +46,7 @@ def add_user(username, email):
     print("Password for %s set to: %s" % (username, pw))
     db.session.add(u)
     db.session.commit()
-    
+
 
 if __name__ == '__main__':
     manager.run()
