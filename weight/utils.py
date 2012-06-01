@@ -40,3 +40,20 @@ def import_weight_from_xml(filename):
     doc = etree.parse(filename)
     add_scales(doc)
     add_weight(doc)
+
+def new_pw():
+    """ Generate a new password with letters and digits
+    """
+    import string
+    import random
+    return "".join(random.sample(string.letters + string.digits, 8))
+
+def get_emailaddress():
+    import subprocess
+    m = subprocess.Popen('git config --get user.email',
+                         shell=True, stdout=subprocess.PIPE).stdout
+    email = unicode(m.read())
+    if '@' not in email:
+        email = None
+    return email
+

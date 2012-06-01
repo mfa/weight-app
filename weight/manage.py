@@ -2,24 +2,10 @@
 from flask.ext.script import Manager
 from main import app, db
 
+from utils import new_pw, get_emailaddress
+
 # flask-Script
 manager = Manager(app)
-
-def new_pw():
-    """ Generate a new password with letters and digits
-    """
-    import string
-    import random
-    return "".join(random.sample(string.letters + string.digits, 8))
-
-def get_emailaddress():
-    import subprocess
-    m = subprocess.Popen('git config --get user.email',
-                         shell=True, stdout=subprocess.PIPE).stdout
-    email = unicode(m.read())
-    if '@' not in email:
-        email = None
-    return email
 
 @manager.command
 def createdb():
