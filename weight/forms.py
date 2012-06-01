@@ -7,10 +7,10 @@ from flask import request
 class LoginForm(Form):
     """The default login form"""
 
-    username = TextField("Username",
-                         validators=[Required(message="Username missing")])
-    password = PasswordField("Password",
-                             validators=[Required(message="Password not provided")])
+    username = TextField("Username", validators=[
+            Required(message="Username missing")])
+    password = PasswordField("Password", validators=[
+            Required(message="Password not provided")])
     remember = BooleanField("Remember Me", default=True)
     next = HiddenField()
     submit = SubmitField("Login")
@@ -34,6 +34,8 @@ class LoginForm(Form):
 
 
 class ProfileForm(Form):
+    """ Form for editing User data
+    """
     firstname = TextField("Firstname")
     lastname = TextField("Lastname")
     email = TextField("Email", [validators.Email(), Optional()])
