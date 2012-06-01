@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 from flask.ext.script import Manager
 from main import app, db
-import subprocess
 
 # flask-Script
 manager = Manager(app)
@@ -11,6 +10,15 @@ def new_pw():
     import random
     return "".join(random.sample(string.letters + string.digits, 8))
 
+def get_emailaddress():
+    import subprocess
+    m = subprocess.Popen('git config --get user.email',
+                         shell=True, stdout=subprocess.PIPE).stdout
+    email = unicode(m.read())
+    if '@' not in email:
+        email = None
+    return email
+
 @manager.command
 def createdb():
     """ Create Database (with initial user)
@@ -18,12 +26,7 @@ def createdb():
     from models import User
     db.create_all()
 
-    m = subprocess.Popen('git config --get user.email',
-                         shell=True, stdout=subprocess.PIPE).stdout
-    email = unicode(m.read())
-    if '@' not in email:
-        email = None
-    add_user(u'admin', email=email)
+    add_user(u'admin', email=get_emailaddress())
 
 @manager.command
 def add_user(username, email):
