@@ -16,7 +16,13 @@ class BaseTest(unittest.TestCase):
         em = get_emailaddress()
         self.assertIn(u'@', em)
 
-    def test_ass_user(self):
+    def test_new_pw(self):
+        from utils import new_pw
+        pw = new_pw()
+        self.assertEqual(len(pw), 8)
+        self.assertTrue(pw.isalnum())
+
+    def test_add_user(self):
         with app.test_request_context():
             from manage import add_user
             add_user(u'foo', u'foo@example.com', quiet=True)
