@@ -35,9 +35,9 @@ def add_user(username, email, quiet=False):
     db.session.commit()
 
 @manager.command
-def import_from_xml(filename):
+def import_from_xml(filename, username):
     from utils import import_weight_from_xml
-    import_weight_from_xml(filename)
+    import_weight_from_xml(filename, username)
 
 
 if __name__ == '__main__':
