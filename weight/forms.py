@@ -1,8 +1,9 @@
 from flask.ext.wtf import Form, TextField, PasswordField, SubmitField, \
      HiddenField, Required, BooleanField, ValidationError, validators, \
-     Optional, EqualTo
+     Optional, EqualTo, DateField, FloatField
 
 from flask import request
+import datetime
 
 class LoginForm(Form):
     """The default login form"""
@@ -46,9 +47,17 @@ class ProfileForm(Form):
     submit = SubmitField("Save")
 
 
+class WeightForm(Form):
+    weight = FloatField("Weight", )
+    wdate = DateField("Date", default=datetime.date.today())
+    comment = TextField("Comment", [Optional()])
+    # set scale
+
+    wid = HiddenField()
+    submit = SubmitField("Save")
+
+
 class Scale(Form):
     pass
 
 
-class Weight(Form):
-    pass

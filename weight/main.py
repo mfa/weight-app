@@ -4,8 +4,9 @@ from flask.ext.login import LoginManager, UserMixin
 from flask.ext.login import login_required, login_user, logout_user , current_user
 from flask.ext.sqlalchemy import SQLAlchemy
 import os
+import datetime
 
-from forms import LoginForm, ProfileForm
+from forms import LoginForm, ProfileForm, WeightForm
 
 app = Flask(__name__)
 
@@ -61,7 +62,6 @@ class DbUser(object):
 def context_processor():
     """Add variables to context
     """
-    import datetime
     d = {'today': datetime.date.today, 
          'user':current_user._user
          }
@@ -135,18 +135,56 @@ def profile():
 @app.route("/weight/<wid>/", methods=["GET","POST"])
 def weight(wid=None):
     from models import Weight
+    import math
+
+    if not wid and 'wid' in request.args:
+        wid = request.args.get('wid')
 
     if wid:
         # edit weight
         elem = Weight.query.get(wid)
 
-        # is this weight from logged_in user? or is user admin?
-        if elem.user_username == current_user._user or \
-                current_user._user == 'admin':
-            return Response(str(elem))
+        # get min/max for buttons
+        x = Weight.query.order_by(Weight.wdate).limit(20).all()
+        wmin = int(math.floor(min([i.weight for i in x])) - 1)
+        wmax = int(math.ceil(max([i.weight for i in x])) + 2)
+        show_comment=True
+
+        if elem:
+            # is this weight from logged_in user? or is user admin?
+            if elem.user_username == current_user._user or \
+                    current_user._user == 'admin':
+
+                form = WeightForm(obj=elem)
+            else:
+                # unauthorized
+                abort(401)
         else:
-            # unauthorized
-            abort(401)
+            # add
+            form = WeightForm()
+            show_comment = False
+
+        if form.validate_on_submit():
+            if not elem:
+                elem = Weight(weight=request.form['weight'])
+
+            if 'weight' in request.form:
+                elem.weight = request.form['weight']
+
+            if 'wdate' in request.form:
+                elem.wdate = datetime.datetime.strptime(request.form['wdate'],
+                                                        '%Y-%m-%d')
+
+            elem.user_username = current_user._user
+
+            db.session.add(elem)
+            db.session.commit()
+            flash('Data saved', 'info')
+
+        return render_template('weight_edit.html',
+                               form=form,
+                               wrange=range(wmin,wmax),
+                               show_comment=show_comment,)
     else:
         # show table of weights
         page = request.args.get('page', '')
