@@ -1,0 +1,44 @@
+{% extends 'layout.html' %}
+
+{% from '_libs.html' import render_pagination %}
+
+{% block js %}
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block body %}
+  <div id="content" class="span6">
+
+    <table class="table table-striped">
+      <thead>
+	<tr>
+	  <th/>
+	  <th>Date</th>
+	  <th>Scale</th>
+	  <th>Weight</th>
+{% if show_comment -%}
+	  <th>Comment</th>
+{% endif -%}
+	</tr>
+      </thead>
+      <tbody>
+	{% for elem in elements -%}
+	<tr>
+	  <td><a class="btn btn-mini btn-primary" href="{{ url_for('weight', wid=elem.id) }}"><i class="icon-edit icon-white"></i> Edit</a></td>
+	  <td>{{ elem.wdate }}</td>
+	  <td>{{ elem.scale_name }}</td>
+	  <td>{{ elem.weight }}</td>
+{% if show_comment -%}
+	  <td>{{ elem.comment|replace(None,'') }}</td>
+{% endif -%}
+	</tr>
+	{% endfor -%}
+      </tbody>
+    </table>
+
+    {{ render_pagination(paginate, "weight") }}
+</div>
+
+{% endblock %}
