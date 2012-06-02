@@ -163,3 +163,10 @@ def weight(wid=None):
                                elements=elements.items,
                                paginate=elements)
 
+# TODO: errorpages (401, 404, 500)
+
+# filters
+def format_year(value, format='%Y'):
+    return value.strftime(format)
+
+app.jinja_env.filters['year'] = format_year
