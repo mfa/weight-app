@@ -73,12 +73,7 @@ def context_processor():
 @app.route('/')
 @login_required
 def index():
-    if current_user._user:
-        user = current_user._user
-    else:
-        user = False
-    return render_template('index.html',
-                           user=user)
+    return render_template('index.html')
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -134,4 +129,37 @@ def profile():
 
     return render_template('profile.html',
                            form=form)
+
+@login_required
+@app.route("/weight/")
+@app.route("/weight/<wid>/", methods=["GET","POST"])
+def weight(wid=None):
+    from models import Weight
+
+    if wid:
+        # edit weight
+        elem = Weight.query.get(wid)
+
+        # is this weight from logged_in user? or is user admin?
+        if elem.user_username == current_user._user or \
+                current_user._user == 'admin':
+            return Response(str(elem))
+        else:
+            # unauthorized
+            abort(401)
+    else:
+        # show table of weights
+        page = request.args.get('page', '')
+        if page.isdigit():
+            page = int(page)
+        else:
+            page = 1
+
+        elements = Weight.query.order_by('wdate desc').filter_by(
+            user_username=unicode(current_user._user)).paginate(
+            page, per_page=10)
+        
+        return render_template('weight_list.html',
+                               elements=elements.items,
+                               paginate=elements)
 
