@@ -62,8 +62,12 @@ class DbUser(object):
 def context_processor():
     """Add variables to context
     """
+    if hasattr(current_user, '_user'):
+        curuser = current_user._user
+    else:
+        curuser = ""
     d = {'today': datetime.date.today, 
-         'user':current_user._user
+         'user':curuser,
          }
     return d
 
