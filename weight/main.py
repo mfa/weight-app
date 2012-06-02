@@ -56,6 +56,18 @@ class DbUser(object):
     def is_authenticated(self):
         return True 
 
+
+@app.context_processor
+def context_processor():
+    """Add variables to context
+    """
+    import datetime
+    d = {'today': datetime.date.today, 
+         'user':current_user._user
+         }
+    return d
+
+
 ## views
 
 @app.route('/')
