@@ -79,6 +79,13 @@
         {% block body %}{% endblock %} 
       </div>
 
+       <footer class="footer">
+          <p class="pull-right"><a href="#">Back to top</a></p>
+          {%- block footer %}
+          Copyright {{ today().strftime("%Y") }}, {{ config['SITE_NAME'] }}
+          {%- endblock %}
+        </footer>
+
     </div> <!-- /container -->
 
     <!-- Placed at the end of the document so the pages load faster -->
