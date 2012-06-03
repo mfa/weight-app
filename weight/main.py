@@ -225,7 +225,7 @@ def weight(wid=None):
         return render_template('weight_list.html',
                                elements=elements.items,
                                paginate=elements,
-                               show_comment=True,)
+                               show_comment=False,)
 
 @login_required
 @app.route("/scale/")
