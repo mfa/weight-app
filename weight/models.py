@@ -119,6 +119,7 @@ class Weight(db.Model):
                      nullable=False)
 
     #: allow only one entry per day and user
+    #: FIXME: looks like it doesn't work with sqlite?
     db.UniqueConstraint('wdate', 'user_username',
                         name='weight_date_user_unique')
 
