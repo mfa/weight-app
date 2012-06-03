@@ -153,7 +153,7 @@ def profile():
 @app.route("/weight/")
 @app.route("/weight/<wid>/", methods=["GET","POST"])
 def weight(wid=None):
-    from models import Weight
+    from models import Weight, Scale, User
     import math
 
     if not wid and 'wid' in request.args:
@@ -171,7 +171,6 @@ def weight(wid=None):
         else:
             wmin=70
             wmax=75
-        show_comment=True
 
         if elem:
             # is this weight from logged_in user? or is user admin?
@@ -185,7 +184,11 @@ def weight(wid=None):
         else:
             # add
             form = WeightForm()
-            show_comment = False
+
+        # get scales list
+        form.scale_name.choices = [(g.name, g.name) 
+                                   for g in Scale.query.order_by('name')]
+        form.scale_name.choices.insert(0, ("", "Select..."))
 
         if form.validate_on_submit():
             if not elem:
@@ -198,11 +201,22 @@ def weight(wid=None):
                 elem.wdate = datetime.datetime.strptime(request.form['wdate'],
                                                         '%Y-%m-%d')
 
+            if 'scale_name' in request.form:
+                elem.scale_name = request.form['scale_name']
+
             elem.user_username = current_user._user
 
             db.session.add(elem)
             db.session.commit()
             flash('Data saved', 'info')
+
+        if elem:
+            if elem.scale_name:
+                form.scale_name.data = elem.scale_name
+        else:
+            u1 = User.query.get(current_user._user)
+            if u1.default_scale_name:
+                form.scale_name.data = u1.default_scale_name
 
         return render_template('weight_edit.html',
                                form=form,

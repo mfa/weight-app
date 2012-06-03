@@ -52,7 +52,7 @@ class WeightForm(Form):
     weight = FloatField("Weight", )
     wdate = DateField("Date", default=datetime.date.today())
     comment = TextField("Comment", [Optional()])
-    # set scale
+    scale_name = SelectField(u'Scale')
 
     wid = HiddenField()
     submit = SubmitField("Save")
