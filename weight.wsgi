@@ -10,5 +10,5 @@ sys.path[0:0] = [
     ]
 
 from main import app as application
-activate_this = os.path.join(os.path.dirname(__file__), 'weight/main.py'),
+activate_this = os.path.join(os.path.dirname(__file__), 'weight/main.py')
 execfile(activate_this, dict(__file__=activate_this))
