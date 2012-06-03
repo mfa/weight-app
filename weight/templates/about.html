@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+
+{% block js %}
+{% endblock %}
+
+{% block header %}
+About
+{% endblock %}
+
+{% block body %}
+  <div id="content" class="span6 well">
+    <p>This app was written out of a personal need.
+      I want to track my weight every day using my Android smartphone.
+      Because of this need the <i>Add weight</i> is optimized for touch input.
+    </p>
+    <p>The sourcecode of the whole application is available on 
+      <a href="http://github.com/mfa/weight-app/">http://github.com/mfa/weight-app/</a>
+    </p>
+    <p>
+      The app is written in Python using
+      <ul>
+	<li>Flask</li>
+	<li>Jinja2</li>
+	<li>Flask-SQLAlchemy, sqlalchemy</li>
+	<li>Flask-WTF, wtforms</li>
+	<li>Flask-Script</li>
+	<li>Flask-Login</li>
+	<li>Flask-Testing</li>
+	<li>lxml</li>
+      </ul>
+      and of course bootstrap.
+    </p>
+    <p>
+  </div>
+  <div id="content" class="span4">
+    <a href="https://github.com/mfa/weight-app/"><img src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
+  </div>
+
+{% endblock %}
