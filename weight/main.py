@@ -292,7 +292,20 @@ def scale(sid=None):
                                elements=elements.items,
                                paginate=elements,)
 
-# TODO: errorpages (401, 404, 500)
+@app.errorhandler(401)
+def error401(e):
+    return render_template('error.html',
+                           errorcode=401), 401
+
+@app.errorhandler(404)
+def error404(e):
+    return render_template('error.html',
+                           errorcode=404), 404
+
+@app.errorhandler(500)
+def error500(e):
+    return render_template('error.html',
+                           errorcode=500), 500
 
 # filters
 def format_year(value, format='%Y'):
