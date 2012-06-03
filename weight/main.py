@@ -76,12 +76,10 @@ def context_processor():
 ## views
 
 @app.route('/')
-@login_required
 def index():
     return render_template('index.html')
 
 @app.route('/about')
-@login_required
 def about():
     return render_template('about.html')
 
@@ -149,9 +147,9 @@ def profile():
     return render_template('profile.html',
                            form=form)
 
-@login_required
 @app.route("/weight/")
 @app.route("/weight/<wid>/", methods=["GET","POST"])
+@login_required
 def weight(wid=None):
     from models import Weight, Scale, User
     import math
@@ -238,9 +236,9 @@ def weight(wid=None):
                                paginate=elements,
                                show_comment=False,)
 
-@login_required
 @app.route("/scale/")
 @app.route("/scale/<sid>/", methods=["GET","POST"])
+@login_required
 def scale(sid=None):
     from models import Scale
 
