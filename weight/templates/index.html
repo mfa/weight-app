@@ -1,12 +1,13 @@
 {% extends 'layout.html' %}
 
+{% block js %}
+{% endblock %}
+
 {% block header %}
 Welcome to {{ config['SITE_NAME'] }}
 {% endblock %}
 
 {% block body %}
-<p>Logged in as {{ user }}</p>
-
 
   <p>
     It works!  Your first Flask application is up and running and

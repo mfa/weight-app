@@ -7,6 +7,10 @@ $().ready(function()
 {
 $('#weight-div input').focus();
 
+$('#hidefields').collapse({
+  toggle: true
+})
+
 $('div.btn-group[data-toggle-name=*]').each(function(){
     var group   = $(this);
     var form    = group.parents('form').eq(0);
@@ -91,14 +95,17 @@ $('div.btn-group[data-toggle-name=*]').each(function(){
     </div>
   </div>
 
-{% if show_comment %} {# hide comment in add form #}
+<div id="hidefields" class="collapse in">
   {{ addfield(form.comment) }}
-{% endif %}
+</div>
 
   {{ form.hidden_tag() }}
 
   <div class="clearfix form-actions" id="submit-div">
     <input id="submit" name="submit" type="submit" value="{{ form.submit.label.text }}" class="btn btn-primary">
+    <button type="button" class="btn .btn-small" data-toggle="collapse" data-target="#hidefields">
+      additional fields
+    </button>
   </div>
 </form>
  </div>
