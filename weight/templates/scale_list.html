@@ -20,7 +20,9 @@
 	  <th>Name</th>
 	  <th>Owner</th>
 	  <th>Model</th>
+{% if show_comment -%}
 	  <th>Comment</th>
+{% endif -%}
 	</tr>
       </thead>
       <tbody>
@@ -30,7 +32,9 @@
 	  <td>{{ elem.name }}</td>
 	  <td>{{ elem.owner|replace(None,'') }}</td>
 	  <td>{{ elem.model|replace(None,'') }}</td>
+{% if show_comment -%}
 	  <td>{{ elem.comment|replace(None,'') }}</td>
+{% endif -%}
 	</tr>
 	{% endfor -%}
       </tbody>
