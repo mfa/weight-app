@@ -136,7 +136,6 @@ def profile():
             u1.set_password(request.form['password'])
 
         if 'default_scale' in request.form:
-            print request.form['default_scale']
             u1.default_scale_name = request.form['default_scale']
 
         db.session.add(u1)
