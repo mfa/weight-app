@@ -98,6 +98,10 @@ class Weight(db.Model):
                      db.DefaultClause(db.func.sysdate()),
                      nullable=False)
 
+    #: allow only one entry per day and user
+    db.UniqueConstraint('wdate', 'user_username',
+                        name='weight_date_user_unique')
+
     #: day of week
     @property
     def weekday(self):
