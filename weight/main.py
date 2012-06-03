@@ -80,6 +80,11 @@ def context_processor():
 def index():
     return render_template('index.html')
 
+@app.route('/about')
+@login_required
+def about():
+    return render_template('about.html')
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     form = LoginForm()
