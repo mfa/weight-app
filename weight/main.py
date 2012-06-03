@@ -121,8 +121,6 @@ def profile():
                                   for g in Scale.query.order_by('name')]
     form.default_scale.choices.insert(0, ("", "Select..."))
 
-    print request.form
-
     if form.validate_on_submit():
 
         if 'firstname' in request.form:
