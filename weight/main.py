@@ -115,8 +115,8 @@ def profile():
     form.default_scale.choices = [(g.name, g.name) 
                                   for g in Scale.query.order_by('name')]
     form.default_scale.choices.insert(0, ("", "Select..."))
-    if u1.default_scale_name:
-        form.default_scale.data = u1.default_scale_name
+
+    print request.form
 
     if form.validate_on_submit():
 
@@ -133,11 +133,16 @@ def profile():
             u1.set_password(request.form['password'])
 
         if 'default_scale' in request.form:
+            print request.form['default_scale']
             u1.default_scale_name = request.form['default_scale']
 
         db.session.add(u1)
         db.session.commit()
         flash('Data saved', 'info')
+
+    if u1.default_scale_name:
+        form.default_scale.data = u1.default_scale_name
+
 
     return render_template('profile.html',
                            form=form)
