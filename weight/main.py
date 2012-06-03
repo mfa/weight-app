@@ -65,11 +65,12 @@ def context_processor():
     if hasattr(current_user, '_user'):
         curuser = current_user._user
     else:
+        # if user is not logged in
         curuser = ""
-    d = {'today': datetime.date.today, 
-         'user':curuser,
-         }
-    return d
+
+    return {'today': datetime.date.today,
+            'user':curuser,
+            }
 
 
 ## views
