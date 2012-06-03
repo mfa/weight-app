@@ -58,7 +58,13 @@ class WeightForm(Form):
     submit = SubmitField("Save")
 
 
-class Scale(Form):
-    pass
+class ScaleForm(Form):
+    name = TextField("Name", )
+    owner = TextField("Owner", [Optional()])
+    model = TextField("Model", [Optional()])
+    comment = TextField("Comment", [Optional()])
+
+    sid = HiddenField()
+    submit = SubmitField("Save")
 
 

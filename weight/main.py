@@ -6,7 +6,7 @@ from flask.ext.sqlalchemy import SQLAlchemy
 import os
 import datetime
 
-from forms import LoginForm, ProfileForm, WeightForm
+from forms import LoginForm, ProfileForm, WeightForm, ScaleForm
 
 app = Flask(__name__)
 
@@ -199,8 +199,7 @@ def weight(wid=None):
 
         return render_template('weight_edit.html',
                                form=form,
-                               wrange=range(wmin,wmax),
-                               show_comment=show_comment,)
+                               wrange=range(wmin,wmax),)
     else:
         # show table of weights
         page = request.args.get('page', '')
@@ -215,7 +214,61 @@ def weight(wid=None):
         
         return render_template('weight_list.html',
                                elements=elements.items,
-                               paginate=elements)
+                               paginate=elements,
+                               show_comment=True,)
+
+@login_required
+@app.route("/scale/")
+@app.route("/scale/<sid>/", methods=["GET","POST"])
+def scale(sid=None):
+    from models import Scale
+
+    if not sid and 'sid' in request.args:
+        sid = request.args.get('sid')
+
+    if sid:
+        # edit weight
+        elem = Scale.query.get(sid)
+
+        if elem:
+            form = ScaleForm(obj=elem)
+        else:
+            # add
+            form = ScaleForm()
+
+        if form.validate_on_submit():
+            if not elem:
+                elem = Scale(name=request.form['name'])
+
+            if 'owner' in request.form:
+                elem.owner = request.form['owner']
+
+            if 'model' in request.form:
+                elem.model = request.form['model']
+
+            if 'comment' in request.form:
+                elem.comment = request.form['comment']
+
+            db.session.add(elem)
+            db.session.commit()
+            flash('Data saved', 'info')
+
+        return render_template('scale_edit.html',
+                               form=form,)
+    else:
+        # show table of weights
+        page = request.args.get('page', '')
+        if page.isdigit():
+            page = int(page)
+        else:
+            page = 1
+
+        elements = Scale.query.order_by('name').paginate(
+            page, per_page=10)
+        
+        return render_template('scale_list.html',
+                               elements=elements.items,
+                               paginate=elements,)
 
 # TODO: errorpages (401, 404, 500)
 

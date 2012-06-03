@@ -1,0 +1,42 @@
+{% extends 'layout.html' %}
+
+{% from '_libs.html' import render_pagination %}
+
+{% block js %}
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block body %}
+  <div id="content" class="span6">
+
+<a class="btn btn-mini btn-primary" href="{{ url_for('scale', sid='add') }}"><i class="icon-plus icon-white"></i> Add</a>
+
+    <table class="table table-striped">
+      <thead>
+	<tr>
+	  <th/>
+	  <th>Name</th>
+	  <th>Owner</th>
+	  <th>Model</th>
+	  <th>Comment</th>
+	</tr>
+      </thead>
+      <tbody>
+	{% for elem in elements -%}
+	<tr>
+	  <td><a class="btn btn-mini btn-primary" href="{{ url_for('scale', sid=elem.name) }}"><i class="icon-edit icon-white"></i> Edit</a></td>
+	  <td>{{ elem.name }}</td>
+	  <td>{{ elem.owner|replace(None,'') }}</td>
+	  <td>{{ elem.model|replace(None,'') }}</td>
+	  <td>{{ elem.comment|replace(None,'') }}</td>
+	</tr>
+	{% endfor -%}
+      </tbody>
+    </table>
+
+    {{ render_pagination(paginate, "scale") }}
+</div>
+
+{% endblock %}

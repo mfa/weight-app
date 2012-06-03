@@ -1,0 +1,36 @@
+{% extends 'layout.html' %}
+
+{% from '_libs.html' import addfield %}
+
+{% block js %}
+$().ready(function()
+{
+$('#name-div input').focus();
+});
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block body %}
+  <div id="content" class="span6">
+
+<form method="POST" action="" class="well form-horizontal">
+
+  {{ addfield(form.name) }}
+
+  {{ addfield(form.owner) }}
+
+  {{ addfield(form.model) }}
+
+  {{ addfield(form.comment) }}
+
+  {{ form.hidden_tag() }}
+
+  <div class="clearfix form-actions" id="submit-div">
+    <input id="submit" name="submit" type="submit" value="{{ form.submit.label.text }}" class="btn btn-primary">
+  </div>
+</form>
+ </div>
+
+{% endblock %}
