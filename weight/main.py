@@ -108,9 +108,15 @@ def logout():
 @app.route("/profile", methods=["GET", "POST"])
 @login_required
 def profile():
-    from models import User
+    from models import User, Scale
     u1 = User.query.get(current_user._user)
     form = ProfileForm(obj=u1)
+
+    form.default_scale.choices = [(g.name, g.name) 
+                                  for g in Scale.query.order_by('name')]
+    form.default_scale.choices.insert(0, ("", "Select..."))
+    if u1.default_scale_name:
+        form.default_scale.data = u1.default_scale_name
 
     if form.validate_on_submit():
 
@@ -126,7 +132,8 @@ def profile():
         if 'password' in request.form:
             u1.set_password(request.form['password'])
 
-        # TODO: set default scale
+        if 'default_scale' in request.form:
+            u1.default_scale_name = request.form['default_scale']
 
         db.session.add(u1)
         db.session.commit()

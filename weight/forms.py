@@ -1,6 +1,6 @@
 from flask.ext.wtf import Form, TextField, PasswordField, SubmitField, \
      HiddenField, Required, BooleanField, ValidationError, validators, \
-     Optional, EqualTo, DateField, FloatField
+     Optional, EqualTo, DateField, FloatField, SelectField
 
 from flask import request
 import datetime
@@ -40,6 +40,9 @@ class ProfileForm(Form):
     password = PasswordField('New Password',
                              [EqualTo('confirm', message='Passwords must match')])
     confirm  = PasswordField('Repeat Password')
+
+    default_scale = SelectField(u'Default Scale')
+
     submit = SubmitField("Save")
 
  
