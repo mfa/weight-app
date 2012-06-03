@@ -245,6 +245,9 @@ def scale(sid=None):
             if not elem:
                 elem = Scale(name=request.form['name'])
 
+            if 'name' in request.form:
+                elem.name = request.form['name']
+
             if 'owner' in request.form:
                 elem.owner = request.form['owner']
 
