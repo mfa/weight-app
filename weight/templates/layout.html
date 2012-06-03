@@ -52,10 +52,9 @@
           <div class="nav-collapse">
             <ul class="nav">
 	      {{ nav_link('weight', 'Weight') }}
-              <li{% if "/weight/add/" == request.endpoint %} class=active{% endif %}><a href={{ url_for("weight", wid="add") }}>Add Weight</a>
-              <li><a href="/scale">Scales</a></li>
-              <li><a href="/about">About</a></li>
-              <li><a href="/contact">Contact</a></li>
+              <li{% if "/weight/add/" == request.endpoint %} class=active{% endif %}><a href={{ url_for("weight", wid="add") }}>Add Weight</a></li>
+	      {{ nav_link('scale', 'Scales') }}
+	      {{ nav_link('about', 'About') }}
             </ul>
           </div><!--/.nav-collapse -->
         </div>
