@@ -26,7 +26,7 @@ def add_user(username, email, quiet=False):
         print("User %s already exists!" % username)
         return
     u = User(username=username, 
-             email=email)
+             email=email.strip())
     pw = new_pw()
     u.set_password(pw)
     if not quiet:
