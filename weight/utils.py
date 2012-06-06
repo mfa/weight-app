@@ -35,9 +35,10 @@ def import_weight_from_xml(filename, username=None):
             w = False
             for i in elem:
                 if i.tag=='weight' and i.text:
-                    sc1 = Scale.query.get(unicode(i.attrib['scale']))
-                    if sc1:
-                        we1.scale_name = sc1.name
+                    if 'scale' in i.attrib:
+                        sc1 = Scale.query.get(unicode(i.attrib['scale']))
+                        if sc1:
+                            we1.scale_name = sc1.name
                     we1.weight = unicode(i.text)
                     w = True
                 if i.tag=='comment' and i.text:
