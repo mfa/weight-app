@@ -10,10 +10,12 @@ import sys
 
 def suite():
     from base import BaseTest
+    from test_importer import ImportTest
 
     suite = unittest.TestSuite()
     # Testmodules
     suite.addTest(unittest.makeSuite(BaseTest))
+    suite.addTest(unittest.makeSuite(ImportTest))
 
     return suite
 
