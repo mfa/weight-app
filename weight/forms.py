@@ -46,9 +46,9 @@ class ProfileForm(Form):
     submit = SubmitField("Save")
 
  
-
-
 class WeightForm(Form):
+    """ Form for editing and adding weight data
+    """
     weight = FloatField("Weight", )
     wdate = DateField("Date", default=datetime.date.today())
     comment = TextField("Comment", [Optional()])
@@ -59,6 +59,8 @@ class WeightForm(Form):
 
 
 class ScaleForm(Form):
+    """ Form for editing and adding scales
+    """
     name = TextField("Name", )
     owner = TextField("Owner", [Optional()])
     model = TextField("Model", [Optional()])
