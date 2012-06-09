@@ -10,14 +10,16 @@ from flask.ext.fillin import FormWrapper
 
 class FormTest(unittest.TestCase):
 
+    username = u'testuser'
+    password = u'testpassword'
+
     @classmethod
     def setUpClass(self):
         with app.test_request_context():
             db.create_all()
-            u = models.User(username=u'testuser', 
+            u = models.User(username=self.username, 
                             email=u'')
-            pw = u'testpassword'
-            u.set_password(pw)
+            u.set_password(self.password)
             db.session.add(u)
             db.session.commit()
 
@@ -29,15 +31,14 @@ class FormTest(unittest.TestCase):
         with FlaskClient(app, response_wrapper=FormWrapper) as client:
             response = client.get('/login')
 
-            username = u'testuser'
-            response.form.fields['username'] = username
-            response.form.fields['password'] = u'testpassword'
+            response.form.fields['username'] = self.username
+            response.form.fields['password'] = self.password
             response.form.fields['remember'] = False
 
             response = response.form.submit(client)
 
             self.assertEqual(response.status, '302 FOUND')
-            self.assertEqual(session.get('user_id'), username)
+            self.assertEqual(session.get('user_id'), self.username)
 
 
     def test_login_fail(self):
@@ -48,12 +49,11 @@ class FormTest(unittest.TestCase):
         with FlaskClient(app, response_wrapper=FormWrapper) as client:
             response = client.get('/login')
 
-            username = u'testuser'
-            response.form.fields['username'] = username
+            response.form.fields['username'] = self.username
             response.form.fields['password'] = u'wrong'
             response.form.fields['remember'] = False
 
             response = response.form.submit(client)
 
             self.assertEqual(response.status, '200 OK')
-            self.assertNotEqual(session.get('user_id'), username)
+            self.assertNotEqual(session.get('user_id'), self.username)
