@@ -11,7 +11,7 @@
 {% block body %}
   <div id="content" class="span6">
 
-<a class="btn btn-mini btn-primary" href="{{ url_for('scale', sid='add') }}"><i class="icon-plus icon-white"></i> Add</a>
+<a class="btn btn-mini btn-primary" href="{{ url_for('.scale', sid='add') }}"><i class="icon-plus icon-white"></i> Add</a>
 
     <table class="table table-striped">
       <thead>
@@ -28,7 +28,7 @@
       <tbody>
 	{% for elem in elements -%}
 	<tr>
-	  <td><a class="btn btn-mini btn-primary" href="{{ url_for('scale', sid=elem.name) }}"><i class="icon-edit icon-white"></i> Edit</a></td>
+	  <td><a class="btn btn-mini btn-primary" href="{{ url_for('.scale', sid=elem.name) }}"><i class="icon-edit icon-white"></i> Edit</a></td>
 	  <td>{{ elem.name }}</td>
 	  <td>{{ elem.owner|replace(None,'') }}</td>
 	  <td>{{ elem.model|replace(None,'') }}</td>
@@ -40,7 +40,7 @@
       </tbody>
     </table>
 
-    {{ render_pagination(paginate, "scale") }}
+    {{ render_pagination(paginate, ".scale") }}
 </div>
 
 {% endblock %}
