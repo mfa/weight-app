@@ -11,11 +11,13 @@ import sys
 def suite():
     from base import BaseTest
     from test_importer import ImportTest
+    from test_forms import FormTest
 
     suite = unittest.TestSuite()
     # Testmodules
     suite.addTest(unittest.makeSuite(BaseTest))
     suite.addTest(unittest.makeSuite(ImportTest))
+    suite.addTest(unittest.makeSuite(FormTest))
 
     return suite
 
