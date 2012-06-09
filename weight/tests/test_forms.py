@@ -35,7 +35,7 @@ class FormTest(unittest.TestCase):
             response.form.fields['password'] = self.password
             response.form.fields['remember'] = False
 
-           response = response.form.submit(client)
+            response = response.form.submit(client)
             self.assertEqual(response.status, '302 FOUND')
             # because of session self.login can't be used
             self.assertEqual(session.get('user_id'), self.username)
