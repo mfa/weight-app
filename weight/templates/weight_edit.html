@@ -52,7 +52,7 @@ $('div.btn-group[data-toggle-name=*]').each(function(){
 
 {% block body %}
   <div id="content" class="span6">
-<form method="POST" action="" class="well form-horizontal">
+<form method="POST" action="{{ request.path }}" class="well form-horizontal">
 
   {% set xfield=form.weight %}
   <div class="clearfix control-group{% if xfield.errors %} error{% endif %}">
