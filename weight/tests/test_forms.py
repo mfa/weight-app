@@ -6,6 +6,7 @@ import models
 from flask import session
 
 from flask.ext.fillin import FormWrapper
+from flask.ext.login import login_user
 #from flask.ext.testing import TestCase
 
 class FormTest(unittest.TestCase):
@@ -24,10 +25,8 @@ class FormTest(unittest.TestCase):
             db.session.commit()
 
     def test_login_ok(self):
-        """ 
+        """ testing a correct login 
         """
-        from flask.ext.login import login_user
-
         with FlaskClient(app, response_wrapper=FormWrapper) as client:
             response = client.get('/login')
 
@@ -42,10 +41,8 @@ class FormTest(unittest.TestCase):
 
 
     def test_login_fail(self):
-        """ 
+        """ testing the login with wrong password
         """
-        from flask.ext.login import login_user
-
         with FlaskClient(app, response_wrapper=FormWrapper) as client:
             response = client.get('/login')
 
@@ -57,3 +54,6 @@ class FormTest(unittest.TestCase):
 
             self.assertEqual(response.status, '200 OK')
             self.assertNotEqual(session.get('user_id'), self.username)
+
+
+        
