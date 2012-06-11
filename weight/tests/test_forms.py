@@ -24,7 +24,6 @@ class FormTest(unittest.TestCase):
             db.session.add(u)
             db.session.commit()
 
-
     def test_login_ok(self):
         """ testing a correct login
         """
@@ -75,9 +74,45 @@ class FormTest(unittest.TestCase):
 
             response = client.get('/weight/add/',
                                   follow_redirects=True)
-
             response.form.fields['weight'] = "10.0"
-
             response = response.form.submit(client)
 
             self.assertEqual(response.status, '200 OK')
+
+    def test_scale_add(self):
+        """ test adding one scale dataset
+        """
+        with FlaskClient(app, response_wrapper=FormWrapper) as client:
+
+            self.login(self.username, self.password)
+            with client.session_transaction() as sess:
+                sess['user_id'] = self.username
+
+            response = client.get('/scale/add/',
+                                  follow_redirects=True)
+            response.form.fields['name'] = "testscale1"
+            response.form.fields['owner'] = "testowner1"
+            response = response.form.submit(client)
+
+            self.assertEqual(response.status, '200 OK')
+
+    def test_scale_edit(self):
+        """ test editing one scale dataset
+        """
+        with FlaskClient(app, response_wrapper=FormWrapper) as client:
+
+            self.login(self.username, self.password)
+            with client.session_transaction() as sess:
+                sess['user_id'] = self.username
+
+            # dataset was added with the importertests
+            response = client.get('/scale/sid1/',
+                                  follow_redirects=True)
+            response.form.fields['owner'] = "testowner2"
+            response = response.form.submit(client)
+
+            self.assertEqual(response.status, '200 OK')
+
+        with app.test_request_context():
+            sc = models.Scale.query.get(u'sid1')
+            self.assertEqual(sc.owner, u'testowner2')
