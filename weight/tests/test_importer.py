@@ -9,8 +9,9 @@ import models
 import utils
 import StringIO
 
-def add_some_data():
-    u1 = models.User(username=u'user1')
+def add_some_data(username):
+    # add testuser
+    u1 = models.User(username=username)
     u1.set_password(utils.new_pw())
     db.session.add(u1)
     db.session.flush()
@@ -25,16 +26,18 @@ def add_some_data():
                               "<weight scale=\"sid1\">50.1</weight>"
                               "</day></days>"
                               "</w>")
-    utils.import_weight_from_xml(xdata, u'user1')
+    utils.import_weight_from_xml(xdata, username)
 
 
 class ImportTest(unittest.TestCase):
+
+    username = u'user1'
 
     @classmethod
     def setUpClass(self):
         with app.test_request_context():
             db.create_all()
-            add_some_data()
+            add_some_data(username=self.username)
 
     def test_scale_1(self):
         """ is the id imported?
