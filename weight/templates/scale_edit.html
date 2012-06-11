@@ -15,7 +15,7 @@ $('#name-div input').focus();
 {% block body %}
   <div id="content" class="span6">
 
-<form method="POST" action="" class="well form-horizontal">
+<form method="POST" action="{{ request.path }}" class="well form-horizontal">
 
   {{ addfield(form.name) }}
 
