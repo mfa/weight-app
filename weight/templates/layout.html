@@ -26,7 +26,7 @@
   <body>
 
 {% macro nav_link(endpoint, caption) -%}
-              <li{% if endpoint == request.endpoint %} class=active{% endif %}><a href={{ url_for(endpoint) }}>{{ caption }}</a>
+              <li{% if endpoint == request.endpoint %} class="active"{% endif %}><a href="{{ url_for(endpoint) }}">{{ caption }}</a>
 {% endmacro -%}
 
     <div class="navbar navbar-fixed-top">
@@ -52,7 +52,7 @@
           <div class="nav-collapse">
             <ul class="nav">
 	      {{ nav_link('.weight', 'Weight') }}
-              <li{% if "/weight/add/" == request.endpoint %} class=active{% endif %}><a href={{ url_for(".weight", wid="add") }}>Add Weight</a></li>
+              <li{% if "/weight/add/" == request.endpoint %} class="active"{% endif %}><a href="{{ url_for(".weight", wid="add") }}">Add Weight</a></li>
 	      {{ nav_link('.scale', 'Scales') }}
 	      {{ nav_link('.about', 'About') }}
             </ul>
