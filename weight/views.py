@@ -40,7 +40,7 @@ def login():
 def logout():
     logout_user()
     flash('You have logged out', "info")
-    return(redirect(url_for('login')))
+    return(redirect(url_for('.login')))
 
 
 @weight_pages.route("/profile", methods=["GET", "POST"])

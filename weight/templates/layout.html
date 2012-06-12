@@ -44,9 +44,9 @@
               <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
-              <li><a href="/profile">Profile</a></li>
+	      {{ nav_link('.profile', 'Profile') }}
               <li class="divider"></li>
-              <li><a href="/logout">Sign Out</a></li>
+	      {{ nav_link('.logout', 'Sign Out') }}
             </ul>
           </div>
           <div class="nav-collapse">

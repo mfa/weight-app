@@ -1,4 +1,3 @@
-#from flask import Flask, Response, request, abort, redirect, flash, url_for
 from flask import Flask, render_template
 from flask.ext.login import LoginManager, UserMixin
 from flask.ext.login import current_user
@@ -24,7 +23,7 @@ db = SQLAlchemy(app)
 # flask-login
 login_manager = LoginManager()
 login_manager.setup_app(app)
-login_manager.login_view = "login"
+login_manager.login_view = ".login"
 
 @login_manager.user_loader
 def load_user(user):
