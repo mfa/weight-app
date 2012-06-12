@@ -62,7 +62,6 @@ class FormTest(unittest.TestCase):
             self.assertEqual(response.status, '200 OK')
             self.assertNotEqual(session.get('user_id'), self.username)
 
-
     def test_weight_add(self):
         """ test adding one weight dataset
         """
@@ -116,3 +115,26 @@ class FormTest(unittest.TestCase):
         with app.test_request_context():
             sc = models.Scale.query.get(u'sid1')
             self.assertEqual(sc.owner, u'testowner2')
+
+    def test_profile_edit(self):
+        """ test editing the user profile
+        """
+        with FlaskClient(app, response_wrapper=FormWrapper) as client:
+
+            self.login(self.username, self.password)
+            with client.session_transaction() as sess:
+                sess['user_id'] = self.username
+
+            # dataset was added with the importertests
+            response = client.get('/profile',
+                                  follow_redirects=True)
+            response.form.fields['firstname'] = u"firstname1"
+            response.form.fields['default_scale'] = u"sid1"
+            response = response.form.submit(client)
+
+            self.assertEqual(response.status, '200 OK')
+
+        with app.test_request_context():
+            u1 = models.User.query.get(self.username)
+            self.assertEqual(u1.firstname, u'firstname1')
+            self.assertEqual(u1.default_scale_name, u'sid1')
