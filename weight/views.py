@@ -10,6 +10,10 @@ from main import db, DbUser
 weight_pages = Blueprint('weight_app', __name__,
                         template_folder='templates')
 
+@weight_pages.route('/favicon.ico')
+def favicon():
+    abort(404)
+
 @weight_pages.route('/')
 def index():
     return render_template('index.html')
