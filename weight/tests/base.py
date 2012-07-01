@@ -1,3 +1,8 @@
+""" Part of weight_app
+
+    :copyright: (c) 2012 by Andreas Madsack.
+    :license: BSD, see LICENSE for more details.
+"""
 from flask.ext.testing import TestCase
 from flask import Flask
 import unittest

@@ -1,3 +1,8 @@
+""" Part of weight_app
+
+    :copyright: (c) 2012 by Andreas Madsack.
+    :license: BSD, see LICENSE for more details.
+"""
 from main import db
 import hashlib
 from sqlalchemy.orm import column_property

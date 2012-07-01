@@ -1,3 +1,8 @@
+""" Part of weight_app
+
+    :copyright: (c) 2012 by Andreas Madsack.
+    :license: BSD, see LICENSE for more details.
+"""
 from flask import Blueprint, Response, request, abort, redirect, flash, \
     url_for, render_template
 from jinja2 import TemplateNotFound

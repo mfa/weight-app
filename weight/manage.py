@@ -1,3 +1,8 @@
+""" Part of weight_app
+
+    :copyright: (c) 2012 by Andreas Madsack.
+    :license: BSD, see LICENSE for more details.
+"""
 #!/usr/bin/env python
 from flask.ext.script import Manager
 from main import app, db

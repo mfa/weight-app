@@ -1,3 +1,8 @@
+""" Part of weight_app
+
+    :copyright: (c) 2012 by Andreas Madsack.
+    :license: BSD, see LICENSE for more details.
+"""
 from flask import Flask, render_template
 from flask.ext.login import LoginManager, UserMixin
 from flask.ext.login import current_user
