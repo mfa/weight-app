@@ -7,14 +7,17 @@ from flask.ext.testing import TestCase
 from flask import Flask
 import unittest
 
-from main import db, app
+#from main import db, app
+from main import db
 import models
 
-class BaseTest(unittest.TestCase):
+class BaseTest(TestCase):
 
-    @classmethod
-    def setUpClass(self):
+    def create_app(self):
+        app = Flask(__name__)
+        app.config['TESTING'] = True
         db.create_all()
+        return app
 
     def test_get_emailaddress(self):
         from utils import get_emailaddress
@@ -28,7 +31,7 @@ class BaseTest(unittest.TestCase):
         self.assertTrue(pw.isalnum())
 
     def test_add_user(self):
-        with app.test_request_context():
+        with self.app.test_request_context():
             from manage import add_user
             add_user(u'foo', u'foo@example.com', quiet=True)
             us1 = models.User.query.get(u'foo')
