@@ -1,16 +1,16 @@
+#!/usr/bin/env python
 """ Part of weight_app
 
     :copyright: (c) 2012 by Andreas Madsack.
     :license: BSD, see LICENSE for more details.
 """
-#!/usr/bin/env python
 from flask.ext.script import Manager
-from main import app, db
+from main import create_app, db
 
 from utils import new_pw, get_emailaddress
 
 # flask-Script
-manager = Manager(app)
+manager = Manager(create_app)
 
 @manager.command
 def createdb():

@@ -10,24 +10,55 @@ from flask.ext.sqlalchemy import SQLAlchemy
 import os
 import datetime
 
-app = Flask(__name__)
+db = SQLAlchemy()
 
-# config
-if os.getenv('DEV') == 'yes':
-    app.config.from_object('config.DevelopmentConfig')
-    app.logger.info("Config: Development")
-elif os.getenv('TEST') == 'yes':
-    app.config.from_object('config.TestConfig')
-    app.logger.info("Config: Test")
-else:
-    app.config.from_object('config.ProductionConfig')
-    app.logger.info("Config: Production")
+def create_app():
+    app = Flask(__name__)
 
-db = SQLAlchemy(app)
+    # config
+    if os.getenv('DEV') == 'yes':
+        app.config.from_object('config.DevelopmentConfig')
+        app.logger.info("Config: Development")
+    elif os.getenv('TEST') == 'yes':
+        app.config.from_object('config.TestConfig')
+        app.logger.info("Config: Test")
+    else:
+        app.config.from_object('config.ProductionConfig')
+        app.logger.info("Config: Production")
+
+    db.init_app(app)
+
+    ## register views
+    from views import weight_pages
+    app.register_blueprint(weight_pages)
+
+    login_manager.setup_app(app)
+
+    @app.context_processor
+    def context_processor():
+        """Add variables to context
+        """
+        if hasattr(current_user, '_user'):
+            curuser = current_user._user
+        else:
+            # if user is not logged in
+            curuser = ""
+
+        return {'today': datetime.date.today,
+                'user':curuser,
+                }
+
+    app.register_error_handler(401, error401)
+    app.register_error_handler(404, error404)
+    app.register_error_handler(500, error500)
+
+    app.jinja_env.filters['year'] = format_year
+
+    return app
+
 
 # flask-login
 login_manager = LoginManager()
-login_manager.setup_app(app)
 login_manager.login_view = ".login"
 
 @login_manager.user_loader
@@ -59,39 +90,15 @@ class DbUser(object):
     def is_authenticated(self):
         return True 
 
-
-@app.context_processor
-def context_processor():
-    """Add variables to context
-    """
-    if hasattr(current_user, '_user'):
-        curuser = current_user._user
-    else:
-        # if user is not logged in
-        curuser = ""
-
-    return {'today': datetime.date.today,
-            'user':curuser,
-            }
-
-
-## register views
-from views import weight_pages
-app.register_blueprint(weight_pages)
-
-
 # errorhandlers
-@app.errorhandler(401)
 def error401(e):
     return render_template('error.html',
                            errorcode=401), 401
 
-@app.errorhandler(404)
 def error404(e):
     return render_template('error.html',
                            errorcode=404), 404
 
-@app.errorhandler(500)
 def error500(e):
     return render_template('error.html',
                            errorcode=500), 500
@@ -99,5 +106,3 @@ def error500(e):
 # filters
 def format_year(value, format='%Y'):
     return value.strftime(format)
-
-app.jinja_env.filters['year'] = format_year
