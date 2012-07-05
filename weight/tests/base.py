@@ -4,20 +4,23 @@
     :license: BSD, see LICENSE for more details.
 """
 from flask.ext.testing import TestCase
+from flask.ext.sqlalchemy import SQLAlchemy
 from flask import Flask
-import unittest
 
-#from main import db, app
-from main import db
+from main import create_app, db
 import models
 
 class BaseTest(TestCase):
 
-    def create_app(self):
-        app = Flask(__name__)
-        app.config['TESTING'] = True
+    def setUp(self):
         db.create_all()
-        return app
+
+    def create_app(self):
+        return create_app()
+
+    def tearDown(self):
+        db.session.remove()
+        db.drop_all()
 
     def test_get_emailaddress(self):
         from utils import get_emailaddress
@@ -31,9 +34,8 @@ class BaseTest(TestCase):
         self.assertTrue(pw.isalnum())
 
     def test_add_user(self):
-        with self.app.test_request_context():
-            from manage import add_user
-            add_user(u'foo', u'foo@example.com', quiet=True)
-            us1 = models.User.query.get(u'foo')
-            self.assertEqual(u'foo', us1.username)
+        from manage import add_user
+        add_user(u'foo', u'foo@example.com', quiet=True)
+        us1 = models.User.query.get(u'foo')
+        self.assertEqual(u'foo', us1.username)
 

@@ -5,10 +5,9 @@
 """
 from flask.ext.testing import TestCase
 from flask import Flask
-import unittest
 import datetime
 
-from main import db, app
+from main import db, create_app
 import models
 
 import utils
@@ -34,27 +33,33 @@ def add_some_data(username):
     utils.import_weight_from_xml(xdata, username)
 
 
-class ImportTest(unittest.TestCase):
+class ImportTest(TestCase):
 
     username = u'user1'
 
-    @classmethod
-    def setUpClass(self):
-        with app.test_request_context():
-            db.create_all()
+    def setUp(self):
+        db.create_all()
+        with self.app.test_request_context():
             add_some_data(username=self.username)
+
+    def create_app(self):
+        return create_app()
+
+    def tearDown(self):
+        db.session.remove()
+        db.drop_all()
 
     def test_scale_1(self):
         """ is the id imported?
         """
-        with app.test_request_context():
+        with self.app.test_request_context():
             sc1 = models.Scale.query.get(u'sid1')
             self.assertNotEqual(sc1, None)
 
     def test_scale_2(self):
         """ query the imported dataset
         """
-        with app.test_request_context():
+        with self.app.test_request_context():
             sc1 = models.Scale.query.get(u'sid1')
             self.assertEqual(sc1.owner, u'o1')
             self.assertEqual(sc1.model, u'm1')
@@ -62,14 +67,14 @@ class ImportTest(unittest.TestCase):
     def test_weight_1(self):
         """ count data in weight table
         """
-        with app.test_request_context():
+        with self.app.test_request_context():
             we1 = models.Weight.query.all()
             self.assertNotEqual(we1[0], None)
 
     def test_weight_2(self):
         """ query the imported dataset
         """
-        with app.test_request_context():
+        with self.app.test_request_context():
             wx = datetime.datetime.strptime('2012-06-03',
                                             '%Y-%m-%d').date()
             we1 = models.Weight.query.filter_by(wdate=wx).all()
@@ -83,7 +88,7 @@ class ImportTest(unittest.TestCase):
     def test_weight_3(self):
         """ add some data
         """
-        with app.test_request_context():
+        with self.app.test_request_context():
             wx = datetime.datetime.strptime('2012-06-04',
                                             '%Y-%m-%d').date()
             we1 = models.Weight(wdate=wx)
@@ -104,7 +109,7 @@ class ImportTest(unittest.TestCase):
     def test_import_1(self):
         """ empty weight field is ignored on import => no dataset
         """
-        with app.test_request_context():
+        with self.app.test_request_context():
             xdata = StringIO.StringIO(u"<w>"
                                       "<days><day date=\"2012-06-02\">"
                                       "</day></days>"
@@ -119,7 +124,7 @@ class ImportTest(unittest.TestCase):
     def test_import_2(self):
         """ import without scale set. scales should be None.
         """
-        with app.test_request_context():
+        with self.app.test_request_context():
             xdata = StringIO.StringIO(u"<w>"
                                       "<days><day date=\"2012-06-02\">"
                                       "<weight>10</weight>"
