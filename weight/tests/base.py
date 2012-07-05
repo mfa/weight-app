@@ -25,7 +25,7 @@ class BaseTest(TestCase):
     def test_get_emailaddress(self):
         from utils import get_emailaddress
         em = get_emailaddress()
-        self.assertIn(u'@', em)
+        assert u'@' in em
 
     def test_new_pw(self):
         from utils import new_pw
