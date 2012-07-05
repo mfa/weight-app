@@ -25,9 +25,9 @@
 
   <body>
 
-{% macro nav_link(endpoint, caption) -%}
+  {% macro nav_link(endpoint, caption) -%}
               <li{% if endpoint == request.endpoint %} class="active"{% endif %}><a href="{{ url_for(endpoint) }}">{{ caption }}</a>
-{% endmacro -%}
+  {% endmacro -%}
 
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
@@ -64,7 +64,7 @@
     <div class="container">
 
       <div id="flash" class="span12">
-      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages %}
             {% for category, message in messages %}
                 <div class="alert alert-block alert-{{ category }}">
@@ -86,7 +86,7 @@
           {%- block footer %}
           Copyright {{ today().strftime("%Y") }}, {{ config['SITE_NAME'] }}
           {%- endblock %}
-        </footer>
+       </footer>
 
     </div> <!-- /container -->
 
