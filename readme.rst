@@ -36,10 +36,11 @@ run tests
   cd weight/tests
   python maintest.py
 
+.. image:: https://secure.travis-ci.org/mfa/weight-app.png
+   :target: http://travis-ci.org/mfa/weight-app
 
 future work
 -----------
 
- * more tests
  * plotting of weight data
  * export to xml
