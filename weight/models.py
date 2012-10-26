@@ -119,7 +119,7 @@ class Weight(db.Model):
                    unique=True, primary_key=True)
 
     #: date of weighing
-    wdate = db.Column(db.Date(timezone=True),
+    wdate = db.Column(db.Date(),
                      db.DefaultClause(db.func.sysdate()),
                      nullable=False)
 
