@@ -150,7 +150,8 @@ def weight(wid=None):
 
             db.session.add(elem)
             db.session.commit()
-            flash('Data saved', 'info')
+            flash('Data saved [%s with %s]' % (elem.wdate, elem.weight),
+                  'info')
 
         if elem:
             if elem.scale_name:
