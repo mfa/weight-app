@@ -9,6 +9,4 @@ sys.path[0:0] = [
        os.path.join(os.path.dirname(__file__), 'weight'),
     ]
 
-from main import app as application
-activate_this = os.path.join(os.path.dirname(__file__), 'weight/main.py')
-execfile(activate_this, dict(__file__=activate_this))
+from run import app as application
