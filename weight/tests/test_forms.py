@@ -9,6 +9,7 @@ from flask import Flask
 from main import db, DbUser, create_app
 import models
 from flask import session
+import datetime
 
 from flask.ext.fillin import FormWrapper
 from flask.ext.login import login_user
@@ -163,3 +164,17 @@ class FormTest(TestCase):
             u1 = models.User.query.get(self.username)
             self.assertEqual(u1.firstname, u'firstname1')
             self.assertEqual(u1.default_scale_name, u'sid1')
+
+    def test_scale_edit_today_check(self):
+        """ test default date (should be today) on weight add form
+        """
+        with FlaskClient(self.app, response_wrapper=FormWrapper) as client:
+
+            self.login(self.username, self.password)
+            with client.session_transaction() as sess:
+                sess['user_id'] = self.username
+
+            response = client.get('/weight/add/',
+                                  follow_redirects=True)
+            self.assertEqual(response.form.fields['wdate'],
+                             datetime.date.today().strftime('%Y-%m-%d'))
