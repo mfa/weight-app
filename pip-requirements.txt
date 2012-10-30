@@ -2,7 +2,7 @@ Flask
 Flask-Script
 Jinja2
 wsgiref
-Flask-Login
+Flask-Login==dev
 Flask-SQLAlchemy
 Flask-WTF
 Flask-Testing
