@@ -2,7 +2,8 @@ Flask
 Flask-Script
 Jinja2
 wsgiref
-Flask-Login==dev
+#Flask-Login==dev
+-e git+https://github.com/maxcountryman/flask-login.git#egg=flask-login
 Flask-SQLAlchemy
 Flask-WTF
 Flask-Testing
