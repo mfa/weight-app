@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """ Part of weight_app
 
     :copyright: (c) 2012 by Andreas Madsack.
@@ -32,9 +33,6 @@ class FormTest(TestCase):
     def create_app(self):
         return create_app()
 
-    def create_app(self):
-        return create_app()
-
     def tearDown(self):
         db.session.remove()
         db.drop_all()
@@ -58,23 +56,18 @@ class FormTest(TestCase):
     def login(self, username, password):
         """ login to site with username and password;
         """
-        with FlaskClient(self.app, response_wrapper=FormWrapper) as client:
-            response = client.get('/login', follow_redirects=True)
-
-            response.form.fields['username'] = username
-            response.form.fields['password'] = password
-            response.form.fields['remember'] = False
-
-            response = response.form.submit(client, follow_redirects=True)
-            return response
-
+        with FlaskClient(self.app) as client:
+            return client.post('/login', data=dict(
+                    username=username,
+                    password=password
+                    ), follow_redirects=True)
 
     def test_login_fail(self):
         """ testing the login with wrong password
         """
         with self.app.test_request_context():
             response = self.login(self.username, u'wrong')
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response[1], '200 OK')
             self.assertNotEqual(session.get('user_id'), self.username)
 
     def test_weight_add(self):
