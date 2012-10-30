@@ -59,6 +59,9 @@ class User(db.Model):
         else:
             return False
 
+    def __unicode__(self):
+        return self.username
+
     def __repr__(self):
         return '<User %s %s>' % (self.username, self.email)
 
