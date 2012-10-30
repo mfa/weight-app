@@ -32,8 +32,6 @@ def create_app():
     from views import weight_pages
     app.register_blueprint(weight_pages)
 
-    login_manager.setup_app(app)
-
     @app.context_processor
     def context_processor():
         """Add variables to context
@@ -54,21 +52,22 @@ def create_app():
 
     app.jinja_env.filters['year'] = format_year
 
+    # flask-login
+    login_manager = LoginManager()
+    login_manager.setup_app(app)
+    login_manager.login_view = ".login"
+    
+    @login_manager.user_loader
+    def load_user(user):
+        from models import User
+        u1 = User.query.get(user)
+        if u1:
+            return DbUser(user)
+        else:
+            return None
+
     return app
 
-
-# flask-login
-login_manager = LoginManager()
-login_manager.login_view = ".login"
-
-@login_manager.user_loader
-def load_user(user):
-    from models import User
-    u1 = User.query.get(user)
-    if u1:
-        return DbUser(user)
-    else:
-        return None
 
 # User class
 class DbUser(object):
