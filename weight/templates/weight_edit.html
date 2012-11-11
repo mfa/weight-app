@@ -11,7 +11,7 @@ $('#hidefields').collapse({
   toggle: true
 })
 
-$('div.btn-group[data-toggle-name=*]').each(function(){
+$('div.btn-group-marker[data-toggle-name=*]').each(function(){
     var group   = $(this);
     var form    = group.parents('form').eq(0);
     var name    = group.attr('data-toggle-name');
@@ -51,7 +51,7 @@ $('div.btn-group[data-toggle-name=*]').each(function(){
 {% endblock %}
 
 {% block body %}
-  <div id="content" class="span6">
+  <div id="content" class="span12">
 <form method="POST" action="{{ request.path }}" class="well form-horizontal">
 
   {% set xfield=form.weight %}
@@ -59,15 +59,15 @@ $('div.btn-group[data-toggle-name=*]').each(function(){
     <label for="{{ xfield.name }}" class="control-label">{{ xfield.label.text }}
       {% if xfield.flags.required %}<abbr title="Required field.">*</abbr>{% endif %}</label>
     <div class="controls" id="{{ xfield.name }}-div">
-      <div style="line-height: 0px;">
-	<div class="btn-group" data-toggle-name="weight-int" data-toggle="buttons-radio">
+      <div style="lineX-height: 0px;">
+	<div class="btn-group-marker" data-toggle-name="weight-int" data-toggle="buttons-radio">
 	  {% for i in wrange -%}
-	  <button type="button" value="{{ i }}" class="btn" data-toggle="button">{{ i }}</button>
+	  <button type="button" value="{{ i }}" class="btn" data-toggle="button">{{ i }}</button>&nbsp;
 	  {% endfor %}
 	</div><br/>
-	<div class="btn-group" data-toggle-name="weight-frac" data-toggle="buttons-radio">
+	<div class="btn-group-marker" data-toggle-name="weight-frac" data-toggle="buttons-radio">
 	  {% for i in range(0,10) -%}
-	  <button type="button" value="{{ i }}" class="btn" data-toggle="button">.{{ i }}</button>
+	  <button type="button" value="{{ i }}" class="btn" data-toggle="button">.{{ i }}</button>&nbsp;
 	  {% endfor %}
 	</div><br/>
       </div>
