@@ -38,6 +38,7 @@
             <span class="icon-bar"></span>
           </a>
           <a class="brand" href="/">Weight App</a>
+	  {% if not errorcode -%}
 	  <div class="btn-group pull-right">
             <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
               <i class="icon-user"></i> {{ user }}
@@ -49,13 +50,16 @@
 	      {{ nav_link('.logout', 'Sign Out') }}
             </ul>
           </div>
+	  {% endif -%}
           <div class="nav-collapse">
+	    {% if not errorcode -%}
             <ul class="nav">
 	      {{ nav_link('.weight', 'Weight') }}
               <li{% if "/weight/add/" == request.endpoint %} class="active"{% endif %}><a href="{{ url_for(".weight", wid="add") }}">Add Weight</a></li>
 	      {{ nav_link('.scale', 'Scales') }}
 	      {{ nav_link('.about', 'About') }}
             </ul>
+	    {% endif -%}
           </div><!--/.nav-collapse -->
         </div>
       </div>
