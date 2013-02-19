@@ -106,7 +106,7 @@ def weight(wid=None):
         elem = Weight.query.get(wid)
 
         # get min/max for buttons
-        x = Weight.query.order_by(Weight.wdate).limit(20).all()
+        x = Weight.query.order_by(Weight.wdate.desc()).limit(20).all()
         if x:
             wmin = int(math.floor(min([i.weight for i in x])) - 1)
             wmax = int(math.ceil(max([i.weight for i in x])) + 2)
