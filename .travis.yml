@@ -7,6 +7,6 @@ env:
   - FLASK=0.9
 install:
   - pip install flask==$FLASK --use-mirrors
-  - pip install -r pip-requirements.txt
+  - pip install -r pip-requirements.txt --use-mirrors
 script:
   - python weight/tests/maintest.py
