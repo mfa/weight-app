@@ -11,6 +11,7 @@ from flask.ext.login import login_required, login_user, logout_user, \
 from forms import LoginForm, ProfileForm, WeightForm, ScaleForm
 import datetime
 from main import db, DbUser
+from utils import fitbit_push
 
 weight_pages = Blueprint('weight_app', __name__,
                         template_folder='templates')
@@ -152,6 +153,12 @@ def weight(wid=None):
             db.session.commit()
             flash('Data saved [%s with %s]' % (elem.wdate, elem.weight),
                   'info')
+
+            # write to fitbitapi
+            u1 = User.query.get(current_user._user)
+            if u1.fitbit_user_key is not None and \
+                    u1.fitbit_user_secret is not None:
+                fitbit_push(u1, elem.wdate, weight)
 
         if elem:
             if elem.scale_name:

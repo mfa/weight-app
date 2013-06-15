@@ -7,6 +7,7 @@ from models import Scale, Weight, User
 from main import db
 from lxml import etree
 import datetime
+import fitbit
 
 def import_weight_from_xml(filename, username=None):
     """ Import Scales and Weight from my own old xml-Data
@@ -72,3 +73,13 @@ def get_emailaddress():
         email = None
     return email
 
+def fitbit_push(user, wdate, weight):
+    # import credentials from extra file:
+    from credentials import APP_KEY, APP_SECRET, USER_KEY, USER_SECRET
+    # to get USER_KEY and USER_SECRET see
+    # http://python-fitbit.readthedocs.org/en/latest/
+
+    fb = fitbit.Fitbit(APP_KEY, APP_SECRET,
+                       user_key=user.fitbit_user_key,
+                       user_secret=user.fitbit_user_secret)
+    fb.body(date=wdate, data={'weight': weight})
