@@ -75,9 +75,7 @@ def get_emailaddress():
 
 def fitbit_push(user, wdate, weight):
     # import credentials from extra file:
-    from credentials import APP_KEY, APP_SECRET, USER_KEY, USER_SECRET
-    # to get USER_KEY and USER_SECRET see
-    # http://python-fitbit.readthedocs.org/en/latest/
+    from credentials import APP_KEY, APP_SECRET
 
     fb = fitbit.Fitbit(APP_KEY, APP_SECRET,
                        user_key=user.fitbit_user_key,

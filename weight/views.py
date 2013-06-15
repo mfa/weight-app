@@ -158,7 +158,7 @@ def weight(wid=None):
             u1 = User.query.get(current_user._user)
             if u1.fitbit_user_key is not None and \
                     u1.fitbit_user_secret is not None:
-                fitbit_push(u1, elem.wdate, weight)
+                fitbit_push(u1, elem.wdate, elem.weight)
 
         if elem:
             if elem.scale_name:
