@@ -3,8 +3,9 @@ python:
   - "2.6"
   - "2.7"
 env:
-  - FLASK=dev
+#  - FLASK=dev
   - FLASK=0.9
+  - FLASK=0.10
 install:
   - pip install flask==$FLASK
   - pip install -r pip-requirements.txt
