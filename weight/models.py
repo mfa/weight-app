@@ -31,6 +31,10 @@ class User(db.Model):
     default_scale_name = db.Column(db.UnicodeText,
                                    db.ForeignKey("scale.name"))
 
+    #: 
+    fitbit_user_key = db.Column(db.String)
+    fitbit_user_secret = db.Column(db.String)
+
     #: backref from Weight table
     weights = db.relationship('Weight',
                               backref='users',
