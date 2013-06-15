@@ -8,3 +8,4 @@ Flask-SQLAlchemy
 Flask-WTF
 Flask-Testing
 Flask-fillin
+-e git+https://github.com/orcasgit/python-fitbit.git#egg=python-fitbit
