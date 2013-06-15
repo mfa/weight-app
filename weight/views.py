@@ -159,6 +159,7 @@ def weight(wid=None):
             if u1.fitbit_user_key is not None and \
                     u1.fitbit_user_secret is not None:
                 fitbit_push(u1, elem.wdate, elem.weight)
+                flash('Data pushed to fitbit', 'info')
 
         if elem:
             if elem.scale_name:
