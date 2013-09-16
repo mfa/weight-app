@@ -13,8 +13,8 @@
 {% endmacro -%}
 
 {% macro render_pagination(pagination, endpoint) %}
-<div class="pagination">
-  <ul>
+<div>
+  <ul class="pagination">
     {% set show_next=True -%}
     {% for page in pagination.iter_pages(right_current=3, left_current=0, left_edge=1, right_edge=1) -%}
     {% if page -%}
