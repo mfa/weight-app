@@ -17,8 +17,8 @@ $('#password-div input').focus();
 {% endblock %}
 
 {% block body %}
-  <div id="content" class="span8">
-<form method="POST" action="/login" class="well form-horizontal">
+  <div id="content" class="col-md-12">
+<form role="form" method="POST" action="/login" class="well form-horizontal">
 
   <legend>Login</legend>
 
@@ -26,16 +26,17 @@ $('#password-div input').focus();
 
   {{ addfield(form.password, value=False) }}
         
-  <div class="clearfix control-group">
-    <label for="remember" class="control-label">Remember me</label>
-    <div class="controls">
+  <div class="form-group">
+    <label for="remember" class="control-label col-md-2">Remember me</label>
+    <div class="controls col-md-4">
       <input id="remember" name="remember" type="checkbox" value="y"{% if form.remember.data %} checked="checked"{% endif %}>
     </div>
   </div>
 
   {{ form.hidden_tag() }}
 
-  <div class="clearfix form-actions" id="submit-div">
+  <div class="form-actions" id="submit-div">
+    <label class="control-label col-md-2"></label>
     <input id="submit" name="submit" type="submit" value="{{ form.submit.label.text }}" class="btn btn-primary">
   </div>
 </form>

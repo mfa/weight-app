@@ -8,16 +8,18 @@ Welcome to {{ config['SITE_NAME'] }}
 {% endblock %}
 
 {% block body %}
-  <div id="content" class="span8">
+<div class="row">
+  <div id="content" class="col-md-8">
     <p>&nbsp;</p>
     <h3>
       Add your weight every day to a database for later evaluation.
     </h3>
     <p>&nbsp;</p>
     <p>
-      <a class="btn btn-mini btn-primary" href="{{ url_for('.weight', wid='add') }}"><i class="icon-plus icon-white"></i> Add Weight</a>
+      <a class="btn btn-mini btn-primary" href="{{ url_for('.weight', wid='add') }}"><span class="glyphicon glyphicon-plus"></span> Add Weight</a>
     </p>
     <p>&nbsp;</p>
     <p>&nbsp;</p>
   </div>
+</div>
 {% endblock %}

@@ -14,7 +14,6 @@
         padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
       }
     </style>
-    <link href="{{ url_for('static', filename='bootstrap/css/bootstrap-responsive.css') }}" rel="stylesheet">
     <link rel="icon" href="/static/favicon.ico" type="image/png">
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -25,50 +24,51 @@
   </head>
 
   <body>
-
+    <a class="sr-only" href="#content">Skip navigation</a>
+    <header class="navbar navbar-fixed-top bs-docs-nav" role="banner">
   {% macro nav_link(endpoint, caption) -%}
               <li{% if endpoint == request.endpoint %} class="active"{% endif %}><a href="{{ url_for(endpoint) }}">{{ caption }}</a>
   {% endmacro -%}
 
-    <div class="navbar navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-          <a class="brand" href="/">Weight App</a>
-	  {% if not errorcode -%}
-	  <div class="btn-group pull-right">
-            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-              <i class="icon-user"></i> {{ user }}
-              <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-	      {{ nav_link('.profile', 'Profile') }}
-              <li class="divider"></li>
-	      {{ nav_link('.logout', 'Sign Out') }}
-            </ul>
-          </div>
-	  {% endif -%}
-          <div class="nav-collapse">
-	    {% if not errorcode -%}
-            <ul class="nav">
-	      {{ nav_link('.weight', 'Weight') }}
-              <li{% if "/weight/add/" == request.endpoint %} class="active"{% endif %}><a href="{{ url_for(".weight", wid="add") }}">Add Weight</a></li>
-	      {{ nav_link('.scale', 'Scales') }}
-	      {{ nav_link('.about', 'About') }}
-            </ul>
-	    {% endif -%}
-          </div><!--/.nav-collapse -->
-        </div>
-      </div>
-    </div>
-
+     <nav class="navbar navbar-default" role="navigation">
+       <div class="navbar-header">
+	 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+	   <span class="sr-only">Toggle navigation</span>
+	   <span class="icon-bar"></span>
+	   <span class="icon-bar"></span>
+	   <span class="icon-bar"></span>
+	 </button>
+	 <a class="navbar-brand" href="/">Weight App</a>
+       </div>
+       
+       <!-- Collect the nav links, forms, and other content for toggling -->
+       <div class="collapse navbar-collapse navbar-ex1-collapse">
+	 <ul class="nav navbar-nav">
+	   {% if not errorcode -%}
+	   {{ nav_link('.weight', 'Weight') }}
+	   <li{% if "/weight/add/" == request.endpoint %} class="active"{% endif %}><a href="{{ url_for(".weight", wid="add") }}">Add Weight</a></li>
+	   {{ nav_link('.scale', 'Scales') }}
+	   {{ nav_link('.about', 'About') }}
+	   {% endif -%}
+	 </ul>
+	 
+	 {% if not errorcode -%}
+	 <ul class="nav navbar-nav navbar-right">
+	   <li class="dropdown">
+	     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> {{ user }} <b class="caret"></b></a>
+	     <ul class="dropdown-menu">
+	       {{ nav_link('.profile', 'Profile') }}
+	       <li class="divider"></li>
+	       {{ nav_link('.logout', 'Sign Out') }}
+	     </ul>
+	   </li>
+	 </ul>
+	 {% endif -%}
+       </div><!-- /.navbar-collapse -->
+     </nav>
+    </header>
     <div class="container">
-
-      <div id="flash" class="span12">
+      <div id="flash" class="col-md-12">
         {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages %}
             {% for category, message in messages %}
@@ -81,12 +81,11 @@
         {% endwith %}
       </div>
 
-      <div id="content" class="span12">
+      <div id="content" class="col-md-12">
 	<h1>{% block header %}{% endblock %}</h1>
         {% block body %}{% endblock %} 
       </div>
-
-       <footer class="footer">
+       <footer class="footer col-md-12">
           <p class="pull-right"><a href="#">Back to top</a></p>
           {%- block footer %}
           Copyright {{ today().strftime("%Y") }}, {{ config['SITE_NAME'] }}
@@ -94,6 +93,7 @@
        </footer>
 
     </div> <!-- /container -->
+ 
 
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
