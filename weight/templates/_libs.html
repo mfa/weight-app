@@ -16,7 +16,7 @@
 <div>
   <ul class="pagination">
     {% set show_next=True -%}
-    {% for page in pagination.iter_pages(right_current=5, left_current=2, left_edge=2, right_edge=2) -%}
+    {% for page in pagination.iter_pages(right_current=5, left_current=1, left_edge=1, right_edge=1) -%}
     {% if page -%}
       {% if page < pagination.page -%}
       <li><a href="{{ url_for(endpoint, page=pagination.prev_num) }}">&laquo;</a></li>
