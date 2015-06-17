@@ -1,4 +1,7 @@
 
+**UNMAINTAINED**
+
+
 Weight App
 ==========
 
@@ -39,8 +42,3 @@ run tests
 .. image:: https://secure.travis-ci.org/mfa/weight-app.png
    :target: http://travis-ci.org/mfa/weight-app
 
-future work
------------
-
- * plotting of weight data
- * export to xml
